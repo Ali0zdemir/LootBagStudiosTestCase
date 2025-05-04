@@ -5,8 +5,11 @@
 - 2D Game Mechanics
 - WASD / Space / Mouse controls
 - Shooting and destroying enemies
-- Background, ground sprites
-- Score system
+- Pixel art style background, ground, and sprites
+- Score system (gain points by defeating enemies)
+- Enemies with health system (defeated after 2 hits)
+- Simple enemy AI (Enemies follow the player)
+- Object Pooling system for bullets
 
 | Key | Action |
 |-----|--------|

@@ -4,6 +4,11 @@ using UnityEngine;
 
 public class GameManager : MonoBehaviour
 {
+    [System.Serializable]
+    public class PlayerSaveData{
+        public int score;
+    }
+    public PlayerData playerData;
     public static GameManager instance;
     public TextMeshProUGUI scoreText;
     private int totalScore;
@@ -22,7 +27,7 @@ public class GameManager : MonoBehaviour
     }
     void Start()
     {
-        
+        LoadPlayerData();
     }
 
     // Update is called once per frame
@@ -35,6 +40,25 @@ public class GameManager : MonoBehaviour
     {
         totalScore += score;
         scoreText.text = "Score: " + totalScore.ToString();
+        SavePlayerData();
+    }
+
+    public void SavePlayerData()
+    {
+        playerData.score = totalScore;
+        PlayerPrefs.SetInt("PlayerScore", playerData.score);
+        PlayerPrefs.Save();
+    }
+
+    
+    public void LoadPlayerData()
+    {
+        if (PlayerPrefs.HasKey("PlayerScore"))
+        {
+            playerData.score = PlayerPrefs.GetInt("PlayerScore");
+            totalScore = playerData.score;
+            scoreText.text = "Score: " + totalScore.ToString();
+        }
     }
 
 }

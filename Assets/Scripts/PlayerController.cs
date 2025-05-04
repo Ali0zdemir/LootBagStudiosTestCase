@@ -6,10 +6,11 @@ public class PlayerController : MonoBehaviour
 {
     float moveInput;
     private Animator playerAnimator;
-    [SerializeField] private Animator bulletAnimator;
     public float speed;
     private Rigidbody2D rb;
+    [SerializeField] private Animator bulletAnimator;
     [SerializeField] private GameObject bulletSpawnPoint;
+    private bool isGrounded = true;
 
     void Start()
     {
@@ -21,6 +22,14 @@ public class PlayerController : MonoBehaviour
     void FixedUpdate()
     {
         moveInput = Input.GetAxis("Horizontal");
+        if(this.transform.position.x < -8.19f )
+        {
+            transform.position = new Vector2(-8.19f, transform.position.y);
+        }
+        else if(this.transform.position.x > 8.5f)
+        {
+            transform.position = new Vector2(8.5f, transform.position.y);
+        }
         rb.linearVelocity = new Vector2(moveInput * speed, rb.linearVelocity.y);
         if (moveInput > 0)
         {
@@ -40,6 +49,18 @@ public class PlayerController : MonoBehaviour
             FireBullet();
             bulletAnimator.SetBool("Shoot", true);
         }
+
+        print("isGrounded: " + isGrounded);
+
+        if(Input.GetKeyDown(KeyCode.Space) && isGrounded && playerAnimator.GetBool("Jump") == false){
+            rb.AddForce(new Vector2(0, 450), ForceMode2D.Impulse);
+            playerAnimator.SetBool("Jump", true);
+        }
+        else if(isGrounded){
+            playerAnimator.SetBool("Jump", false);
+        }
+
+
     }
 
     private void FireBullet()
@@ -60,7 +81,21 @@ public class PlayerController : MonoBehaviour
         bulletAnimator.SetBool("Shoot", false);
     }
 
-    
-    
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
+        if(collision.gameObject.CompareTag("Ground"))
+        {
+            isGrounded = true;
+        }
+    }
+
+    private void OnCollisionExit2D(Collision2D collision)
+    {
+        if(collision.gameObject.CompareTag("Ground"))
+        {
+            isGrounded = false;
+        }
+    }
+
 
 }

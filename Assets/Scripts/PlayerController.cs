@@ -6,8 +6,10 @@ public class PlayerController : MonoBehaviour
 {
     float moveInput;
     private Animator playerAnimator;
+    [SerializeField] private Animator bulletAnimator;
     public float speed;
     private Rigidbody2D rb;
+    [SerializeField] private GameObject bulletSpawnPoint;
 
     void Start()
     {
@@ -33,9 +35,10 @@ public class PlayerController : MonoBehaviour
 
     void Update()
     {
-        if(Input.GetMouseButtonDown(0))
+        if(Input.GetMouseButtonDown(0) && !bulletAnimator.GetBool("Shoot"))
         {
             FireBullet();
+            bulletAnimator.SetBool("Shoot", true);
         }
     }
 
@@ -44,11 +47,20 @@ public class PlayerController : MonoBehaviour
         GameObject bullet = BulletPooling.instance.GetPooledBullet();
         if(bullet != null)
         {
-            bullet.transform.position = transform.position;
+            bullet.transform.position = bulletSpawnPoint.transform.position;
             bullet.transform.rotation = transform.rotation;
             bullet.SetActive(true);
         }
+        StartCoroutine(ShootCooldown());
     }
+
+    private System.Collections.IEnumerator ShootCooldown()
+    {
+        yield return new WaitForSeconds(1f);
+        bulletAnimator.SetBool("Shoot", false);
+    }
+
+    
     
 
 }

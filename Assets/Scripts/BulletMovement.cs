@@ -2,6 +2,7 @@ using UnityEngine;
 
 public class BulletMovement : MonoBehaviour
 {
+    private float bulletSpeed = 20f;
     
     void Start()
     {
@@ -11,7 +12,7 @@ public class BulletMovement : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        transform.Translate(Vector2.right * Time.deltaTime * 10f);
+        transform.Translate(Vector2.right * Time.deltaTime * bulletSpeed);
     }
 
     private void OnTriggerEnter2D(Collider2D collision)

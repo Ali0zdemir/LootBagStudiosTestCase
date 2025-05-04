@@ -22,7 +22,7 @@ public class SpawnManager : MonoBehaviour
             int randomEnemyIndex = Random.Range(0, enemyPrefabs.Count);
             int randomSpawnPointIndex = Random.Range(0, spawnPoints.Length);
             Instantiate(enemyPrefabs[randomEnemyIndex], spawnPoints[randomSpawnPointIndex].position, Quaternion.identity);
-            yield return new WaitForSeconds(5f); // Adjust the spawn rate as needed
+            yield return new WaitForSeconds(5f);
         }
     }
 

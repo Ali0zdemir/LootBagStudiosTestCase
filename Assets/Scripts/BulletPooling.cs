@@ -5,7 +5,7 @@ public class BulletPooling : MonoBehaviour
 {
     public static BulletPooling instance;
     private List<GameObject> pooledBullets = new List<GameObject>();
-    private int amountToPool = 20;
+    private int amountToPool = 5;
     [SerializeField] private GameObject bulletPrefab;
     void Awake()
     {
